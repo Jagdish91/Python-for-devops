@@ -1,4 +1,7 @@
 import json
+#--------------------------------------
+#Working with JSON strings
+#--------------------------------------
 
 people_string = '''
 {
@@ -19,12 +22,13 @@ people_string = '''
 }
 '''
 
+# Convert JSON string to Python object
 data = json.loads(people_string)
 
 #we can check the data type conversion between json and python
 #object converts to dict and array to list
-print(type(data))
-print(type(data['people']))
+print(type(data))                   # dict   
+print(type(data['people']))         # list
 
 #we can access the data in list individually using for loop
 for person in data['people']:
@@ -35,17 +39,29 @@ for person in data['people']:
 for person in data['people']:
     del person['phone']
 
+# Convert Python object back to JSON
 new_string = json.dumps(data, indent=4, sort_keys=True)
 
 #print(new_string)
 
 
+#-------------------------------------------------------
+# Working with JSON files
+#-------------------------------------------------------
+
+
 #loading a file
-with open(r'C:\Users\jagdi\Python for Devops\states.json') as file:
+
+file_path = r'enter your file path here'
+with open(file_path) as file:
     file_data = json.load(file)
 
-
+# Remove area codes
 for state in file_data['states']:
-    print(state['name'], state['area_codes'])
+    del state['area_codes']
 
+# Write cleaned data to new file
+with open('new_states.json','w') as f:
+    json.dump(file_data, f, indent=3)
 
+print("JSON cleaning completed successfully")
